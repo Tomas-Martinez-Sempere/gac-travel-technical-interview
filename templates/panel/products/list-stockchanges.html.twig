@@ -1,0 +1,40 @@
+{# templates/panel/products/list-stockchanges.html.twig #}
+{% extends '@panel/panel.html.twig' %}
+{% set section = 'products' %}
+{% block main %}
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+                        <div>
+                            <h4 class="mb-3">Variación del stock de {{ product.name }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsive mb-3">
+                        <table class="table mb-0 tbl-server-info no-footer" role="grid">
+                            <thead class="bg-white text-uppercase">
+                            <tr class="ligth ligth-data" role="row">
+                                <th class="text-left">Fecha</th>
+                                <th class="text-left">Producto</th>
+                                <th class="text-left">Variación</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for stock in stockhistoric %}
+                                <tr>
+                                    <td class="text-left">{{ stock.createdat|date('Y-m-d H:i:s') }}</td>
+                                    <td class="text-left">{{ stock.product.name }}</td>
+                                    <td class="text-left">{{ stock.stock }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

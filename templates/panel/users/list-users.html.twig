@@ -1,0 +1,47 @@
+{# templates/panel/categories/list-categories.html.twig #}
+{% extends '@panel/panel.html.twig' %}
+{% set section = 'users' %}
+{% block main %}
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+                        <div>
+                            <h4 class="mb-3">Usuarios</h4>
+                        </div>
+                        <a href="{{ path('app_categories_form') }}" class="btn btn-primary add-list">
+                            <i class="las la-plus mr-3"></i>Nueva usuario
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsive mb-3">
+                        <table class="table mb-0 tbl-server-info no-footer" role="grid">
+                            <thead class="bg-white text-uppercase">
+                            <tr class="ligth ligth-data" role="row">
+                                <th class="text-left">Nombre</th>
+                                <th class="text-center">Activo</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <th class="text-left">{{ user.username }}</th>
+                                        <th class="text-center">{{ user.active }}</th>
+                                        <th class="text-right">
+                                            <a class="badge bg-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar" href="#">
+                                                <i class="las la-minus"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

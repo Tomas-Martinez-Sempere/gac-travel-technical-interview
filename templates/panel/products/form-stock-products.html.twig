@@ -1,0 +1,48 @@
+{# templates/panel/products/form-stock-products.html.twig #}
+{% extends '@panel/panel.html.twig' %}
+{% set section = 'products' %}
+{% block main %}
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+                        <div>
+                            <h4 class="mb-3">Modifica stock</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <form action="/products/updatestock/{{ product.id }}" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- CON ERROR
+                                <div class="form-group has-error has-danger">-->
+                                <div class="form-group">
+                                    <label>Nombre *</label>
+                                    <input type="text" class="form-control" value="{{ product.name }}" disabled>
+                                    {% if error != "" %}
+                                    <div class="help-block with-errors">
+                                        <ul class="list-unstyled">
+                                            <li>{{ error }}</li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Variación de stock * (stock actual {{ product.stock }})</label>
+                                    <input type="number" class="form-control" name="{{ field_name(form.Stock) }}">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-5 text-center">
+                                <button type="submit" class="btn btn-primary mr-2">Modifica stock</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

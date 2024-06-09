@@ -17,6 +17,9 @@ framework:
     php_errors:
         log: true
 
+    assets:
+        base_path: '%kernel.project_dir%/template/assets'
+
 when@test:
     framework:
         test: true
