@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class RegistroType extends AbstractType
 {
@@ -16,10 +17,14 @@ class RegistroType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Username'
+                'label' => 'Username',
+                'required' => true,
+                'constraints' => [new Length(['min' => 3, 'max' => 255])]
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Password'
+                'label' => 'Password',
+                'required' => true,
+                'constraints' => [new Length(['min' => 3, 'max' => 255])]
             ])
             ;
     }

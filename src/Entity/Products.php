@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
@@ -19,6 +20,8 @@ class Products
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
+     * @Assert\Length(max=64)
      */
     private $name;
 
@@ -43,6 +46,8 @@ class Products
      * @ORM\Column(type="integer")
      */
     private $stock;
+
+    private $valorAuxiliar;
 
     public function getId(): ?int
     {
@@ -109,5 +114,16 @@ class Products
         $this->stock = $stock;
 
         return $this;
+    }
+
+    public function setValorAuxiliar($value): self
+    {
+        $this->valorAuxiliar = $value;
+        return $this;
+    }
+
+    public function getValorAuxiliar()
+    {
+        return $this->valorAuxiliar;
     }
 }

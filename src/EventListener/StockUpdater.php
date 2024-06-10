@@ -25,19 +25,20 @@ class StockUpdater
 
     public function postUpdate(Products $product, LifecycleEventArgs $event): void
     {
+        if ($product->getValorAuxiliar() != 0)
+        {
+            $token = $this->tokenStorage->getToken();
+            $user = $token->getUser();
+            $fecha = new \DateTime();
 
-        $token = $this->tokenStorage->getToken();
-        $user = $token->getUser();
-        $fecha = new \DateTime();
+            $stock = new StockHistoric();
+            $stock->setProduct($product);
+            $stock->setUser($user);
+            $stock->setStock($product->getValorAuxiliar());
+            $stock->setCreatedAt($fecha);
 
-        $stock = new StockHistoric();
-        $stock->setProduct($product);
-        $stock->setUser($user);
-        $stock->setStock($product->getStock());
-        $stock->setCreatedAt($fecha);
-
-        $this->em->persist($stock);
-        $this->em->flush();
-
+            $this->em->persist($stock);
+            $this->em->flush();
+        }
     }
 }

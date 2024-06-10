@@ -34,17 +34,15 @@ class ProductsController extends AbstractController
 
         if ($form->isSubmitted() /*&& $form->isValid()*/) {
 
-            $product = $form->getData();
+            $product_form = $form->getData();
             $fecha = new \DateTime();
-            $product->setCreatedAt($fecha);
-            $product->setStock(0);
+            $product_form->setCreatedAt($fecha);
+            $product_form->setStock(0);
 
-            $entityManager->persist($product);
+            $entityManager->persist($product_form);
             $entityManager->flush();
 
-            return $this->render('panel/products/list-products.html.twig', [
-                'products' => $entityManager->getRepository(Products::class)->findAll(),
-            ]);
+            return $this->redirectToRoute('app_products');
         }
 
         return $this->render('panel/products/form-products.html.twig', [
@@ -62,17 +60,14 @@ class ProductsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() /*&& $form->isValid()*/) {
-            $product = $form->getData();
+            $product_form = $form->getData();
             $fecha = new \DateTime();
-            $product->setCreatedAt($fecha);
-            $product->setStock(0);
+            $product_form->setCreatedAt($fecha);
 
-            $entityManager->persist($product);
+            $entityManager->persist($product_form);
             $entityManager->flush();
 
-            return $this->render('panel/products/list-products.html.twig', [
-                'products' => $entityManager->getRepository(Products::class)->findAll(),
-            ]);
+            return $this->redirectToRoute('app_products');
         }
 
         return $this->render('panel/products/form-products.html.twig', [
@@ -88,12 +83,15 @@ class ProductsController extends AbstractController
     {
         $product = $entityManager->getRepository(Products::class)->find($id);
 
+        $query = $entityManager->createQuery(
+            'DELETE FROM App\Entity\StockHistoric s WHERE s.product = :product'
+        )->setParameter('product', $product);
+        $query->execute();
+
         $entityManager->remove($product);
         $entityManager->flush();
 
-        return $this->render('panel/products/list-products.html.twig', [
-            'products' => $entityManager->getRepository(Products::class)->findAll(),
-        ]);
+        return $this->redirectToRoute('app_products');
     }
 
     #[Route('/updatestock/{id}', name: 'app_products_update_stock', methods: ["GET","POST"])]
@@ -119,12 +117,11 @@ class ProductsController extends AbstractController
             }
 
             $product->setStock($stock_final);
+            $product->setValorAuxiliar($variacion_stock);
             $entityManager->persist($product);
             $entityManager->flush();
 
-            return $this->render('panel/products/list-products.html.twig', [
-                'products' => $entityManager->getRepository(Products::class)->findAll(),
-            ]);
+            return $this->redirectToRoute('app_products');
         }
 
         return $this->render('panel/products/form-stock-products.html.twig', [
